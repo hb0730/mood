@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mood:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+      - DATABASE_URL=file:/app/prisma/prod.db
+      - JWT_SECRET=your-production-jwt-secret-key
+      - ADMIN_PASSWORD=your-production-admin-password
+    volumes:
+      - ./prisma:/app/prisma
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 如果需要使用外部数据库，可以取消注释以下服务
+  # postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_DB: octopus_emotion
+  #     POSTGRES_USER: octopus_user
+  #     POSTGRES_PASSWORD: your_secure_password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+
+volumes:
+  # postgres_data:

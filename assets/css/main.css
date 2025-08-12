@@ -1,0 +1,285 @@
+@import '@unocss/reset/tailwind.css';
+
+/* 自定义样式 */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+/* 确保主容器不会溢出 */
+#__nuxt {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+}
+
+/* 优化滚动体验 */
+* {
+  box-sizing: border-box;
+}
+
+/* 防止水平滚动 */
+.container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* 优化移动端滚动 */
+@media (max-width: 768px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: 100dvh; /* 动态视口高度，解决移动端问题 */
+  }
+}
+
+/* 全局容器样式 */
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 隐藏滚动条但保持滚动功能 */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* 确保滚动功能正常 */
+html, body {
+  overflow: auto;
+}
+
+/* 为需要滚动的容器保持滚动功能 */
+.scrollable {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* 额外的滚动条隐藏类 */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 确保主容器的滚动条也隐藏 */
+.app-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.app-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 加强导航栏固定效果 */
+nav.navbar-fixed {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* 模态框层级 - 确保高于一切 */
+.modal-overlay {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+
+.modal-content {
+  z-index: 100000 !important;
+  position: relative !important;
+}
+
+/* 确保模态框在所有可能的上下文中都是最高层级 */
+[data-modal="true"] {
+  z-index: 999999 !important;
+}
+
+/* 覆盖任何可能的第三方组件z-index */
+.modal-overlay,
+.modal-overlay * {
+  isolation: isolate;
+}
+
+/* 确保模态框背景覆盖所有内容 */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 模态框头部固定效果 */
+.modal-header {
+  position: sticky !important;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* 模态框内容容器 */
+.modal-body {
+  position: relative;
+  overflow-y: auto;
+  max-height: calc(95vh - 120px); /* 减去头部和底部高度 */
+  flex: 1;
+}
+
+/* 模态框底部固定效果 */
+.modal-footer {
+  position: sticky !important;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* 为固定导航栏添加内容上边距 */
+.content-with-navbar {
+  padding-top: 7rem; /* 112px - 增加间距确保不重叠 */
+  margin-top: 0;
+}
+
+/* 确保主页面布局正确 */
+.main-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 移动端优化导航栏间距 */
+@media (max-width: 768px) {
+  .content-with-navbar {
+    padding-top: 6rem; /* 96px - 移动端增加间距确保不重叠 */
+  }
+}
+
+/* 导航栏高度保证 */
+nav.navbar-fixed {
+  height: 4rem; /* 64px */
+  min-height: 4rem;
+}
+
+/* 动画效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-up-enter-from {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.slide-up-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+/* 情绪卡片悬停效果 */
+.emotion-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  margin-top: 6px; /* 为hover效果预留空间 */
+  margin-bottom: 6px;
+}
+
+.emotion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* 确保卡片内容不会溢出 */
+.emotion-card * {
+  max-width: 100%;
+}
+
+/* 帖子卡片样式保持原有的简洁样式 */
+
+/* 按钮点击效果 */
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* 输入框焦点效果 */
+.input:focus,
+.textarea:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 被举报内容的特殊样式 */
+.reported-content {
+  position: relative;
+  border: 2px solid rgba(239, 68, 68, 0.3) !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.reported-content::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgba(239, 68, 68, 0.1), rgba(245, 101, 101, 0.1));
+  border-radius: inherit;
+  z-index: -1;
+  animation: reported-pulse 2s infinite;
+}
+
+@keyframes reported-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "匿名情绪发泄站",
+  "short_name": "情绪发泄站",
+  "description": "一个安全的匿名情绪发泄平台，支持8种情绪状态，让每个人都能自由表达内心感受，释放压力，获得心理支持。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/favicon-16.svg",
+      "sizes": "16x16",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-32.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-48.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "health", "social"],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-mobile.jpg",
+      "sizes": "375x667",
+      "type": "image/jpeg",
+      "form_factor": "narrow"
+    }
+  ]
+}

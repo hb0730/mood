@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model EmotionPost {
+  id          String    @id @default(cuid())
+  content     String
+  emotion     String
+  timestamp   DateTime  @default(now())
+  isAnonymous Boolean   @default(true)
+  author      String?
+  userId      String?   // 用户标识符
+  tags        String?
+  likes       Int       @default(0)
+  liked       Boolean   @default(false)
+  isHidden    Boolean   @default(false)  // 是否被管理员隐藏
+  isReported  Boolean   @default(false)  // 是否被举报
+  reportedBy  String?   // 举报者用户ID
+  moderatedAt DateTime? // 审核时间
+  comments    Comment[]
+  likedBy     Like[]
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+  timestamp   DateTime @default(now())
+  isAnonymous Boolean  @default(true)
+  author      String?
+  isReported  Boolean  @default(false)  // 是否被举报
+  reportedBy  String?  // 举报者用户ID
+  post        EmotionPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      String
+}
+
+model Like {
+  id          String   @id @default(cuid())
+  userId      String
+  postId      String
+  timestamp   DateTime @default(now())
+  post        EmotionPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, postId]) // 确保同一用户对同一帖子只能点赞一次
+}
