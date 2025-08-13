@@ -1,5 +1,5 @@
 # 使用GitHub Actions预构建产物的Dockerfile
-# 只使用实际可用的文件：.output目录
+# 支持可选的Prisma文件，自动处理数据库初始化
 
 FROM node:20.19.4-alpine AS runtime
 
@@ -16,8 +16,28 @@ RUN apk add --no-cache \
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nuxtjs
 
-# 只复制预构建的应用产物（GitHub Actions实际提供的文件）
+# 复制预构建的应用产物
 COPY .output ./.output
+
+# 复制启动脚本
+COPY start.sh ./start.sh
+
+# 尝试复制Prisma相关文件（如果存在）
+# 使用shell命令检查文件是否存在，如果存在则复制
+RUN if [ -f "prisma/schema.prisma" ]; then \
+        echo "发现Prisma schema文件，复制Prisma目录"; \
+        cp -r prisma ./prisma; \
+    else \
+        echo "未发现Prisma schema文件，跳过复制"; \
+    fi
+
+# 尝试复制package.json（如果存在）
+RUN if [ -f "package.json" ]; then \
+        echo "发现package.json文件，复制依赖信息"; \
+        cp package.json ./package.json; \
+    else \
+        echo "未发现package.json文件，跳过复制"; \
+    fi
 
 # 创建必要的目录
 RUN mkdir -p /app/prisma/db /app/logs && \
@@ -41,6 +61,6 @@ USER nuxtjs
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1
 
-# 直接启动应用（不需要启动脚本，因为没有Prisma相关文件）
+# 使用dumb-init启动应用
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["node", ".output/server/index.mjs"]
+CMD ["sh", "./start.sh"]

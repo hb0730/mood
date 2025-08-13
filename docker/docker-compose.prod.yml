@@ -15,11 +15,14 @@ services:
       - PORT=3000
       - NITRO_HOST=0.0.0.0
       - NITRO_PORT=3000
+      - DATABASE_URL=file:./prisma/db/prod.db
       - JWT_SECRET=${JWT_SECRET}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     env_file:
       - .env.production
     volumes:
+      # 数据库文件持久化
+      - mood_data:/app/prisma/db
       # 日志持久化
       - mood_logs:/app/logs
     networks:
@@ -89,6 +92,12 @@ networks:
       com.docker.network.bridge.name: mood_prod_br
 
 volumes:
+  mood_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/mood/data
   mood_logs:
     driver: local
     driver_opts:

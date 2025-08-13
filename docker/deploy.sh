@@ -79,21 +79,6 @@ create_directories() {
     log_success "目录创建完成"
 }
 
-# 生成SSL证书
-generate_ssl() {
-    if [ ! -f "ssl/cert.pem" ] || [ ! -f "ssl/key.pem" ]; then
-        log_info "生成SSL证书..."
-        if [ -f "generate-ssl.sh" ]; then
-            chmod +x generate-ssl.sh
-            ./generate-ssl.sh
-        else
-            log_warning "SSL证书生成脚本不存在，请手动生成证书"
-        fi
-    else
-        log_success "SSL证书已存在"
-    fi
-}
-
 # 检查环境变量文件
 check_env_file() {
     local env_file=".env.production"
@@ -210,11 +195,6 @@ main() {
     # 创建目录
     create_directories
     
-    # 生成SSL证书（如果需要）
-    if [ "$profile" = "production" ]; then
-        generate_ssl
-    fi
-    
     # 检查环境变量
     if [ "$profile" = "production" ]; then
         check_env_file
@@ -278,6 +258,9 @@ case "${1:-}" in
     "cleanup")
         cleanup
         ;;
+    "check")
+        check_build_artifacts
+        ;;
     "help"|"-h"|"--help")
         echo "使用方法: $0 [命令] [环境]"
         echo ""
@@ -291,6 +274,7 @@ case "${1:-}" in
         echo "  status        检查服务状态"
         echo "  logs          显示服务日志"
         echo "  cleanup       清理Docker资源"
+        echo "  check         检查预构建产物"
         echo "  help          显示此帮助信息"
         echo ""
         echo "环境:"
@@ -303,6 +287,7 @@ case "${1:-}" in
         echo "示例:"
         echo "  $0                    # 部署到开发环境"
         echo "  $0 production         # 部署到生产环境"
+        echo "  $0 check              # 检查预构建产物"
         echo "  $0 logs production    # 查看生产环境日志"
         ;;
     *)

@@ -1,11 +1,11 @@
 # Mood 应用 Docker 部署指南
 
-本文档介绍如何使用 Docker 部署 Mood 匿名情绪发泄站应用，使用GitHub Actions预构建的产物，并支持Prisma数据库自动初始化。
+本文档介绍如何使用 Docker 部署 Mood 匿名情绪发泄站应用，使用GitHub Actions预构建的`.output`产物。
 
 ## 部署流程
 
 ```
-GitHub Actions 构建 → 生成 .output 目录 → Docker 部署 → Prisma初始化 → 运行应用
+GitHub Actions 构建 → 生成 .output 目录 → Docker 部署 → 运行应用
 ```
 
 ## 文件结构
@@ -17,7 +17,7 @@ docker/
 ├── docker-compose.prod.yml      # 生产环境配置
 ├── .dockerignore                # Docker构建忽略文件
 ├── deploy.sh                    # 部署脚本
-├── start.sh                     # 应用启动脚本（Prisma初始化）
+├── start.sh                     # 应用启动脚本
 ├── env.production.template      # 生产环境变量模板
 ├── nginx/                       # Nginx配置目录
 │   ├── nginx.prod.conf         # 生产环境Nginx主配置
@@ -28,8 +28,7 @@ docker/
 
 ## 前置条件
 
-### 1. 预构建产物
-
+### 预构建产物要求
 确保 `.output` 目录存在且包含完整的构建产物：
 
 ```bash
@@ -40,8 +39,7 @@ docker/
 pnpm run build
 ```
 
-### 2. 环境要求
-
+### 环境要求
 - Docker 20.10+
 - Docker Compose 2.0+
 - 至少 1GB 可用内存
@@ -107,29 +105,45 @@ cp env.production.template .env.production
 
 ## Prisma数据库管理
 
-### 自动初始化
-- 容器启动时自动检查数据库
-- 如果数据库不存在，自动运行迁移
-- 支持SQLite数据库
+### 智能初始化
+- 容器启动时自动检查Prisma环境
+- 支持多种场景：有迁移文件、无迁移文件、数据库已存在等
+- 自动检测并应用可用的迁移
 
-### 数据库访问
-```bash
-# 启动Prisma Studio
-docker compose --profile dev-tools up prisma-studio
+### 支持的场景
 
-# 访问数据库管理界面
-# http://localhost:5555
-```
+#### 1. 完整Prisma环境
+- 存在`schema.prisma`和`migrations`目录
+- 自动运行`prisma migrate deploy`
+- 创建完整的数据库结构
 
-### 手动迁移
+#### 2. 部分Prisma环境
+- 只有`schema.prisma`文件，缺少迁移目录
+- 创建空数据库文件
+- 依赖应用首次启动时自动创建表结构
+
+#### 3. 无Prisma环境
+- 只有`.output`产物
+- 创建空数据库文件
+- 依赖应用首次启动时自动创建表结构
+
+### 自动迁移检测
+- 容器启动时检查是否有新的迁移
+- 自动应用待处理的迁移
+- 支持增量数据库更新
+
+### 手动操作（如果需要）
 ```bash
 # 进入容器
 docker exec -it mood-app sh
 
-# 运行迁移
+# 检查Prisma状态
+npx prisma migrate status
+
+# 手动运行迁移
 npx prisma migrate deploy
 
-# 生成客户端
+# 生成Prisma客户端
 npx prisma generate
 ```
 
@@ -185,19 +199,9 @@ npx prisma generate
 ### 工作流说明
 
 1. **构建阶段**: GitHub Actions 运行 `pnpm run build`
-2. **产物准备**: 将 `.output` 目录和 `docker/*` 文件复制到 `dist/` 目录
-3. **文件结构**: 在 `dist/` 目录下，`.output` 和 `Dockerfile` 在同一层级
-4. **部署阶段**: 将整个 `dist/` 目录传输到服务器
-5. **Docker部署**: 在服务器上运行 `docker compose up -d --build`
-
-### 文件结构
-```
-dist/
-├── .output/           # Nuxt构建产物
-├── Dockerfile         # Docker镜像文件
-├── docker-compose.yml # Docker Compose配置
-└── ...               # 其他Docker相关文件
-```
+2. **产物准备**: 将 `.output` 目录复制到 `dist/`
+3. **部署阶段**: 将产物传输到服务器
+4. **Docker部署**: 在服务器上运行 `docker compose up -d --build`
 
 ### 优势
 
@@ -206,10 +210,15 @@ dist/
 - **资源节约**: 服务器只需运行，不需要构建工具
 - **版本控制**: 构建产物与代码版本完全对应
 
+### 限制
+
+- **缺少Prisma文件**: 无法运行数据库迁移（但会创建空数据库）
+- **缺少依赖信息**: 无法查看package.json
+- **数据库初始化**: 优先使用迁移文件，否则依赖应用首次启动时自动创建
+
 ## 生产环境特性
 
 ### 安全配置
-
 - 非root用户运行
 - 安全HTTP头
 - 请求限流
@@ -217,7 +226,6 @@ dist/
 - 内容安全策略
 
 ### 性能优化
-
 - 使用预构建产物
 - 镜像层优化
 - Gzip压缩
@@ -225,7 +233,6 @@ dist/
 - 连接池优化
 
 ### 监控和日志
-
 - 健康检查
 - 结构化日志
 - 日志轮转
@@ -244,7 +251,7 @@ dist/
    pnpm run build
    ```
 
-2. **Prisma初始化失败**
+2. **数据库初始化失败**
    ```bash
    # 查看应用日志
    ./deploy.sh logs production

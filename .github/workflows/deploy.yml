@@ -31,7 +31,7 @@ jobs:
       - name: Build
         run: pnpm run build
       - name: Move Directory
-        run: mkdir -p dist && cp -r .output dist/ && cp -r docker/* dist/
+        run: mkdir -p dist && cp -rf .output dist/ && cp -rf docker/* dist/ && cp -rf prisma dist/ 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

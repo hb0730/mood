@@ -64,9 +64,14 @@ nuxt.config.prod.ts
 uno.config.ts
 tsconfig.json
 
-# 依赖目录（不需要，因为使用预构建产物）
+# 构建产物（保留.output目录）
+# .output  # 注释掉，因为我们需要这个目录
+
+# Prisma相关文件（GitHub Actions可能没有上传）
+prisma/
 node_modules/
-.pnpm-store/
+package.json
+pnpm-lock.yaml
 
 # 数据库文件
 *.db
@@ -76,6 +81,3 @@ prisma/db/
 # 日志文件
 logs/
 *.log
-
-# 保留.output目录（这是GitHub Actions实际提供的）
-# .output

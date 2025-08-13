@@ -9,17 +9,18 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-    networks:
-      - mood-network
     environment:
       - NODE_ENV=production
       - HOST=0.0.0.0
       - PORT=3000
       - NITRO_HOST=0.0.0.0
       - NITRO_PORT=3000
+      - DATABASE_URL=file:./prisma/db/dev.db
       - JWT_SECRET=${JWT_SECRET:-your-dev-jwt-secret-key}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
     volumes:
+      # 数据库文件持久化
+      - mood_data:/app/prisma/db
       # 日志持久化
       - mood_logs:/app/logs
     networks:
@@ -39,31 +40,31 @@ services:
           memory: 256M
           cpus: '0.25'
 
-  # 开发环境Nginx配置
-  nginx:
-    image: nginx:alpine
-    container_name: mood-nginx-dev
-    restart: unless-stopped
+  # 开发环境数据库管理（可选）
+  prisma-studio:
+    image: node:20.19.4-alpine
+    container_name: mood-prisma-studio
+    restart: "no"
     ports:
-      - "80:80"
+      - "5555:5555"
+    working_dir: /app
     volumes:
-      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d/dev.conf:/etc/nginx/conf.d/default.conf:ro
-      - mood_logs:/var/log/nginx
-    depends_on:
-      - mood-app
-    networks:
-      - mood-network
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-          cpus: '0.25'
+      - mood_data:/app/prisma/db
+      - ./prisma:/app/prisma:ro
+    command: >
+      sh -c "
+        npm install -g prisma &&
+        prisma studio --hostname 0.0.0.0 --port 5555
+      "
+    profiles:
+      - dev-tools
 
 networks:
   mood-network:
     driver: bridge
 
 volumes:
+  mood_data:
+    driver: local
   mood_logs:
     driver: local
