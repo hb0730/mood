@@ -33,7 +33,7 @@ jobs:
       - name: Move Directory
         run: mkdir -p dist && cp -r .output dist/ && cp -r docker/* dist/
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
