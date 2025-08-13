@@ -74,10 +74,10 @@ export const copyrightConfig: CopyrightInfo = {
   
   // 联系信息
   contact: {
-    support: 'support@your-domain.com',
-    feedback: 'feedback@your-domain.com',
-    business: 'business@your-domain.com',
-    general: 'info@your-domain.com'
+    support: 'support@mood.hb0730.me',
+    feedback: 'feedback@mood.hb0730.me',
+    business: 'business@mood.hb0730.me',
+    general: 'info@mood.hb0730.me'
   },
   
   // 社交媒体链接

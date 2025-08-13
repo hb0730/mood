@@ -873,7 +873,7 @@ useHead({
         "@type": "WebPage",
         "name": "内容管理后台",
         "description": "匿名情绪发泄站管理后台",
-        "url": "https://your-domain.com/admin",
+        "url": "https://mood.hb0730.me/admin",
         "isPartOf": {
           "@type": "WebSite",
           "name": "匿名情绪发泄站"

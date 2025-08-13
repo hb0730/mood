@@ -8,16 +8,15 @@
     
     <!-- 阴影效果 -->
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.2"/>
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
     </filter>
   </defs>
   
   <!-- 背景圆形 -->
   <circle cx="90" cy="90" r="85" fill="url(#heartGradient)"/>
   
-  <!-- MDI Heart 图标 (mdi:heart) - 放大并居中 -->
-  <path d="M12,21.35l-1.45,-1.32C5.4,15.36 2,12.28 2,8.5C2,5.42 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.09C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.42 22,8.5C22,12.28 18.6,15.36 13.45,20.04L12,21.35Z" 
+  <!-- 心形图标 - 完全重新设计，确保居中且无多余部分 -->
+  <path d="M90,130C90,130 70,110 60,100C50,90 40,80 40,70C40,60 50,50 60,50C70,50 80,60 90,70C100,60 110,50 120,50C130,50 140,60 140,70C140,80 130,90 120,100C110,110 90,130 90,130Z" 
         fill="white" 
-        filter="url(#shadow)"
-        transform="translate(45, 45) scale(4.5)"/>
+        filter="url(#shadow)"/>
 </svg>

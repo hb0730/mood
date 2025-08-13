@@ -107,7 +107,7 @@ pnpm install
 pnpm run dev
 
 # 访问应用
-open http://localhost:3000
+open https://mood.hb0730.me
 ```
 
 #### 方法二：Docker部署 (推荐)
@@ -126,7 +126,7 @@ chmod +x deploy.sh
 ./deploy.sh start
 
 # 访问应用
-open http://localhost:3000
+open https://mood.hb0730.me
 ```
 
 ### 📦 构建和部署

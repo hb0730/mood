@@ -823,8 +823,8 @@ useHead({
     { property: 'og:title', content: '匿名情绪发泄站 - 安全匿名情绪发泄平台' },
     { property: 'og:description', content: '匿名情绪发泄站是一个完全安全的匿名情绪发泄平台，支持8种情绪状态，让每个人都能自由表达内心感受，释放压力，获得心理支持。' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://your-domain.com/' },
-    { property: 'og:image', content: 'https://your-domain.com/og-image.jpg' },
+    { property: 'og:url', content: 'https://mood.hb0730.me/' },
+    { property: 'og:image', content: 'https://mood.hb0730.me/og-image.jpg' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: '匿名情绪发泄站 - 安全匿名情绪发泄平台' },
     { name: 'twitter:description', content: '匿名情绪发泄站是一个完全安全的匿名情绪发泄平台，支持8种情绪状态，让每个人都能自由表达内心感受，释放压力，获得心理支持。' }
@@ -837,7 +837,7 @@ useHead({
         "@type": "WebPage",
         "name": "匿名情绪发泄站",
         "description": "一个安全的匿名情绪发泄平台",
-        "url": "https://your-domain.com/",
+        "url": "https://mood.hb0730.me/",
         "mainEntity": {
           "@type": "WebSite",
           "name": "匿名情绪发泄站",

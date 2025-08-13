@@ -35,10 +35,10 @@ export default defineNuxtConfig({
         
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: 'https://your-domain.com/' },
+        { property: 'og:url', content: 'https://mood.hb0730.me/' },
         { property: 'og:title', content: '匿名情绪发泄站 - 安全匿名情绪发泄平台' },
         { property: 'og:description', content: '匿名情绪发泄站是一个完全安全的匿名情绪发泄平台，支持8种情绪状态，让每个人都能自由表达内心感受，释放压力，获得心理支持。' },
-        { property: 'og:image', content: 'https://your-domain.com/og-image.jpg' },
+        { property: 'og:image', content: 'https://mood.hb0730.me/og-image.jpg' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
         { property: 'og:locale', content: 'zh_CN' },
@@ -46,10 +46,10 @@ export default defineNuxtConfig({
         
         // Twitter
         { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:url', content: 'https://your-domain.com/' },
+        { property: 'twitter:url', content: 'https://mood.hb0730.me/' },
         { property: 'twitter:title', content: '匿名情绪发泄站 - 安全匿名情绪发泄平台' },
         { property: 'twitter:description', content: '匿名情绪发泄站是一个完全安全的匿名情绪发泄平台，支持8种情绪状态，让每个人都能自由表达内心感受，释放压力，获得心理支持。' },
-        { property: 'twitter:image', content: 'https://your-domain.com/og-image.jpg' },
+        { property: 'twitter:image', content: 'https://mood.hb0730.me/og-image.jpg' },
         
         // 其他重要meta标签
         { name: 'theme-color', content: '#667eea' },
@@ -68,10 +68,10 @@ export default defineNuxtConfig({
           "@type": "WebSite",
           "name": "匿名情绪发泄站",
           "description": "一个安全的匿名情绪发泄平台",
-          "url": "https://your-domain.com/",
+          "url": "https://mood.hb0730.me/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://your-domain.com/search?q={search_term_string}",
+            "target": "https://mood.hb0730.me/search?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         })}
@@ -91,7 +91,7 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         // 规范链接
-        { rel: 'canonical', href: 'https://your-domain.com/' },
+        { rel: 'canonical', href: 'https://mood.hb0730.me/' },
         // PWA支持
         { rel: 'manifest', href: '/manifest.json' }
       ],
@@ -103,8 +103,8 @@ export default defineNuxtConfig({
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "匿名情绪发泄站",
-            "url": "https://your-domain.com/",
-            "logo": "https://your-domain.com/logo.png",
+            "url": "https://mood.hb0730.me/",
+            "logo": "https://mood.hb0730.me/logo.png",
             "description": "一个安全的匿名情绪发泄平台",
             "sameAs": [
               "https://weibo.com/your-account",
