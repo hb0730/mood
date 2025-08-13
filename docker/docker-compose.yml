@@ -1,41 +1,42 @@
-version: "3.8"
 services:
-  # 一次性迁移任务（每次发布先跑它）
-  migrate:
+  # 数据库初始化服务
+  db-init:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         PRISMA_SCHEMA: /app/prisma/schema.prisma
     image: mood-ssr:latest
-    container_name: mood-migrate
+    container_name: mood-db-init
     restart: "no"
     environment:
       - DATABASE_URL=file:/app/prisma/db/prod.db
       - PRISMA_SCHEMA=/app/prisma/schema.prisma
+      - RUN_MIGRATIONS=true
     volumes:
-      - sqlite_data:/app/prisma/db
+      - ./db:/app/prisma/db
     command: >
-      sh -lc "mkdir -p /app/prisma/db && \
-              npx prisma migrate deploy --schema=$PRISMA_SCHEMA || \
-              npx prisma db push --schema=$PRISMA_SCHEMA"
+      sh -c "
+        echo 'Starting database initialization...' &&
+        mkdir -p /app/prisma/db &&
+        npx prisma migrate deploy --schema=$PRISMA_SCHEMA ||
+        npx prisma db push --schema=$PRISMA_SCHEMA &&
+        echo 'Database initialization completed'
+      "
 
-  # 应用服务（不做迁移）
+  # 主应用服务
   mood-app:
     image: mood-ssr:latest
     container_name: mood-app
     depends_on:
-      migrate:
+      db-init:
         condition: service_completed_successfully
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - HOST=0.0.0.0
-      - PORT=3000
-      - NITRO_HOST=0.0.0.0
-      - NITRO_PORT=3000
       - DATABASE_URL=file:/app/prisma/db/prod.db
+      - PRISMA_SCHEMA=/app/prisma/schema.prisma
     volumes:
       - ./db:/app/prisma/db
     restart: unless-stopped
