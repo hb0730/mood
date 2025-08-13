@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  mood-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mood-app-prod
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=3000
+      - NITRO_HOST=0.0.0.0
+      - NITRO_PORT=3000
+      - JWT_SECRET=${JWT_SECRET}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    env_file:
+      - .env.production
+    volumes:
+      # 日志持久化
+      - mood_logs:/app/logs
+    networks:
+      - mood_prod_network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 生产环境Nginx配置
+  nginx:
+    image: nginx:alpine
+    container_name: mood-nginx-prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d/prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - mood_logs:/var/log/nginx
+    depends_on:
+      mood-app:
+        condition: service_healthy
+    networks:
+      - mood_prod_network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  mood_prod_network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: mood_prod_br
+
+volumes:
+  mood_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/mood/logs
