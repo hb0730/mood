@@ -1,12 +1,32 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  mood-app:
+  # 一次性迁移任务（每次发布先跑它）
+  migrate:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        PRISMA_SCHEMA: /app/prisma/schema.prisma
+    image: mood-ssr:latest
+    container_name: mood-migrate
+    restart: "no"
+    environment:
+      - DATABASE_URL=file:/app/prisma/db/prod.db
+      - PRISMA_SCHEMA=/app/prisma/schema.prisma
+    volumes:
+      - sqlite_data:/app/prisma/db
+    command: >
+      sh -lc "mkdir -p /app/prisma/db && \
+              npx prisma migrate deploy --schema=$PRISMA_SCHEMA || \
+              npx prisma db push --schema=$PRISMA_SCHEMA"
+
+  # 应用服务（不做迁移）
+  mood-app:
+    image: mood-ssr:latest
     container_name: mood-app
-    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
     ports:
       - "3000:3000"
     environment:
@@ -15,56 +35,7 @@ services:
       - PORT=3000
       - NITRO_HOST=0.0.0.0
       - NITRO_PORT=3000
-      - DATABASE_URL=file:./prisma/db/dev.db
-      - JWT_SECRET=${JWT_SECRET:-your-dev-jwt-secret-key}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - DATABASE_URL=file:/app/prisma/db/prod.db
     volumes:
-      # 数据库文件持久化
-      - mood_data:/app/prisma/db
-      # 日志持久化
-      - mood_logs:/app/logs
-    networks:
-      - mood-network
-    healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.5'
-        reservations:
-          memory: 256M
-          cpus: '0.25'
-
-  # 开发环境数据库管理（可选）
-  prisma-studio:
-    image: node:20.19.4-alpine
-    container_name: mood-prisma-studio
-    restart: "no"
-    ports:
-      - "5555:5555"
-    working_dir: /app
-    volumes:
-      - mood_data:/app/prisma/db
-      - ./prisma:/app/prisma:ro
-    command: >
-      sh -c "
-        npm install -g prisma &&
-        prisma studio --hostname 0.0.0.0 --port 5555
-      "
-    profiles:
-      - dev-tools
-
-networks:
-  mood-network:
-    driver: bridge
-
-volumes:
-  mood_data:
-    driver: local
-  mood_logs:
-    driver: local
+      - ./db:/app/prisma/db
+    restart: unless-stopped
