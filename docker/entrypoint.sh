@@ -10,7 +10,12 @@ if [ -z "$DATABASE_URL" ]; then
   export DATABASE_URL="file:/app/prisma/db/mood.db"
 fi
 
+if [ -z "$PRISMA_SCHEMA" ]; then
+  export PRISMA_SCHEMA="/app/prisma/schema.prisma"
+fi
+
 echo "Database URL: $DATABASE_URL"
+echo "Prisma Schema: $PRISMA_SCHEMA"
 echo "Starting Prisma database initialization..."
 
 # 确保数据库目录存在
@@ -24,11 +29,11 @@ fi
 
 # 尝试运行迁移
 echo "Running Prisma migrations..."
-if npx prisma migrate deploy; then
+if npx prisma migrate deploy --schema="$PRISMA_SCHEMA"; then
   echo "✅ Prisma migrations applied successfully"
 else
   echo "⚠️  No migrations found, using db push..."
-  if npx prisma db push; then
+  if npx prisma db push --schema="$PRISMA_SCHEMA"; then
     echo "✅ Database schema pushed successfully"
   else
     echo "❌ Database initialization failed"
@@ -38,12 +43,12 @@ fi
 
 # 验证数据库表是否存在
 echo "Verifying database tables..."
-echo "SELECT name FROM sqlite_master WHERE type='table' AND name='EmotionPost';" | npx prisma db execute --stdin | grep -q "EmotionPost"
+echo "SELECT name FROM sqlite_master WHERE type='table' AND name='EmotionPost';" | npx prisma db execute --schema="$PRISMA_SCHEMA" --stdin | grep -q "EmotionPost"
 if [ $? -eq 0 ]; then
   echo "✅ EmotionPost table exists"
 else
   echo "❌ EmotionPost table not found, attempting to recreate..."
-  npx prisma db push --force-reset
+  npx prisma db push --schema="$PRISMA_SCHEMA" --force-reset
   echo "✅ Database schema recreated"
 fi
 

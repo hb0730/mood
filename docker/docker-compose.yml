@@ -8,6 +8,7 @@ services:
       - ./prisma/db:/app/prisma/db
     environment:
       - DATABASE_URL=file:/app/prisma/db/mood.db
+      - PRISMA_SCHEMA=/app/prisma/schema.prisma
       - JWT_SECRET=your-secret-key
       - ADMIN_PASSWORD=admin123
     restart: always
