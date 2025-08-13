@@ -38,19 +38,10 @@ else
   else
     echo "❌ Database initialization failed"
     exit 1
-  fi
+    fi
 fi
 
-# 验证数据库表是否存在
-echo "Verifying database tables..."
-echo "SELECT name FROM sqlite_master WHERE type='table' AND name='EmotionPost';" | npx prisma db execute --schema="$PRISMA_SCHEMA" --stdin | grep -q "EmotionPost"
-if [ $? -eq 0 ]; then
-  echo "✅ EmotionPost table exists"
-else
-  echo "❌ EmotionPost table not found, attempting to recreate..."
-  npx prisma db push --schema="$PRISMA_SCHEMA" --force-reset
-  echo "✅ Database schema recreated"
-fi
+echo "🎉 Database initialization completed"
 
 # 启动应用程序
 echo "Starting application..."
