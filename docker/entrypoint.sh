@@ -38,7 +38,8 @@ fi
 
 # 验证数据库表是否存在
 echo "Verifying database tables..."
-if npx prisma db execute --stdin <<< "SELECT name FROM sqlite_master WHERE type='table' AND name='EmotionPost';" | grep -q "EmotionPost"; then
+echo "SELECT name FROM sqlite_master WHERE type='table' AND name='EmotionPost';" | npx prisma db execute --stdin | grep -q "EmotionPost"
+if [ $? -eq 0 ]; then
   echo "✅ EmotionPost table exists"
 else
   echo "❌ EmotionPost table not found, attempting to recreate..."
