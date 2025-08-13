@@ -23,7 +23,7 @@ Disallow: /api/auth
 Crawl-delay: 1
 
 # 站点地图
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://mood.hb0730.me/sitemap.xml
 
 # 主机
-Host: https://your-domain.com
+Host: https://mood.hb0730.me
