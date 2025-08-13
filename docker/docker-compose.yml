@@ -1,42 +1,13 @@
 services:
-  # 数据库初始化服务
-  db-init:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        PRISMA_SCHEMA: /app/prisma/schema.prisma
-    image: mood-ssr:latest
-    container_name: mood-db-init
-    restart: "no"
-    environment:
-      - DATABASE_URL=file:/app/prisma/db/prod.db
-      - PRISMA_SCHEMA=/app/prisma/schema.prisma
-      - RUN_MIGRATIONS=true
-    volumes:
-      - ./db:/app/prisma/db
-    command: >
-      sh -c "
-        echo 'Starting database initialization...' &&
-        mkdir -p /app/prisma/db &&
-        npx prisma migrate deploy --schema=$PRISMA_SCHEMA ||
-        npx prisma db push --schema=$PRISMA_SCHEMA &&
-        echo 'Database initialization completed'
-      "
-
-  # 主应用服务
   mood-app:
-    image: mood-ssr:latest
     container_name: mood-app
-    depends_on:
-      db-init:
-        condition: service_completed_successfully
+    image: hb0730/mood:latest
     ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=file:/app/prisma/db/prod.db
-      - PRISMA_SCHEMA=/app/prisma/schema.prisma
+      - 3000:3000
     volumes:
-      - ./db:/app/prisma/db
-    restart: unless-stopped
+      - ./prisma/db:/app/prisma/db
+    environment:
+      - DATABASE_URL=file:/app/prisma/db/mood.db
+      - JWT_SECRET=your-secret-key
+      - ADMIN_PASSWORD=admin123
+    restart: always
