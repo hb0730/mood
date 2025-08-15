@@ -626,8 +626,11 @@ const loadStats = async () => {
       }
     })
     stats.value = data
-  } catch (error) {
+  } catch (error:any) {
     console.error('Failed to load stats:', error)
+    if (error.statusCode === 401) {
+      logout()
+    }
   }
 }
 
