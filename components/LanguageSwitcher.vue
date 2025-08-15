@@ -106,7 +106,7 @@ onUnmounted(() => {
 }
 
 .flag {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .name {
