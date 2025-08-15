@@ -9,34 +9,34 @@
               <div class="i-mdi-heart text-white text-sm"></div>
             </div>
             <h3 class="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              匿名情绪发泄站
+                              {{ $t('app.name') }}
             </h3>
           </div>
           <p class="text-gray-600 text-sm">
-            一个安全、匿名的情绪发泄平台，让每个人都能自由表达内心感受
+            {{ $t('app.description') }}
           </p>
         </div>
 
         <!-- 版权和归属信息 -->
         <div class="text-center md:text-right">
           <p class="text-gray-500 text-sm">
-            © {{ new Date().getFullYear() }} 匿名情绪发泄站. 保留所有权利.
+            © {{ new Date().getFullYear() }} {{ $t('app.name') }}. {{ $t('common.allRightsReserved') }}.
           </p>
           <p class="text-gray-400 text-xs mt-1">
-            基于 <a href="https://nuxt.com/" target="_blank" class="text-blue-500 hover:text-blue-600">Nuxt 3</a> + 
+            {{ $t('common.builtWith') }} <a href="https://nuxt.com/" target="_blank" class="text-blue-500 hover:text-blue-600">Nuxt 3</a> + 
             <a href="https://vuejs.org/" target="_blank" class="text-blue-500 hover:text-blue-600">Vue 3</a> + 
-            <a href="https://unocss.dev/" target="_blank" class="text-blue-500 hover:text-blue-600">UnoCSS</a> 构建
+            <a href="https://unocss.dev/" target="_blank" class="text-blue-500 hover:text-blue-600">UnoCSS</a>
           </p>
           
           <!-- 统计信息 (可选) -->
           <div v-if="showUserCount || showAdminBadge" class="flex items-center justify-center md:justify-end space-x-6 text-sm text-gray-500 mt-4">
             <span v-if="showUserCount" class="flex items-center space-x-1">
               <div class="i-mdi-account-group text-gray-400"></div>
-              <span>用户数: {{ userCount }}</span>
+              <span>{{ $t('admin.users') }}: {{ userCount }}</span>
             </span>
             <span v-if="showAdminBadge" class="flex items-center space-x-1">
               <div class="i-mdi-shield-account text-gray-400"></div>
-              <span>管理后台</span>
+              <span>{{ $t('admin.title') }}
             </span>
           </div>
         </div>

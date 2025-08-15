@@ -3,7 +3,7 @@
     <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[95vh] overflow-hidden modal-content flex flex-col">
       <!-- 头部 -->
       <div class="flex items-center justify-between p-6 border-b border-gray-100 modal-header flex-shrink-0">
-        <h2 class="text-2xl font-bold text-gray-900">评论</h2>
+        <h2 class="text-2xl font-bold text-gray-900">{{ $t('modals.comments.title') }}</h2>
         <button 
           @click="$emit('close')"
           class="text-gray-400 hover:text-gray-600 transition-colors"
@@ -23,7 +23,7 @@
           </div>
           <div class="flex-1">
             <p class="font-medium text-gray-900">
-              {{ post.isAnonymous ? '匿名用户' : post.author || '匿名用户' }}
+              {{ post.isAnonymous ? $t('modals.comments.anonymousUser') : post.author || $t('modals.comments.anonymousUser') }}
             </p>
             <p class="text-sm text-gray-500">
               {{ formatTime(post.timestamp) }}
@@ -52,7 +52,7 @@
           <div class="flex items-center space-x-3">
             <div class="i-mdi-comment-text-multiple text-xl text-blue-500"></div>
             <h3 class="text-lg font-semibold text-gray-900">
-              评论讨论
+              {{ $t('modals.comments.discussion') }}
             </h3>
             <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">
               {{ post?.comments?.length || 0 }}
@@ -77,9 +77,9 @@
               >
                 <div class="flex items-center space-x-2">
                   <div class="i-mdi-flag text-red-500 text-xs animate-pulse"></div>
-                  <span class="text-xs font-medium text-red-700">此评论已被举报</span>
+                  <span class="text-xs font-medium text-red-700">{{ $t('modals.comments.commentReported') }}</span>
                   <div class="text-xs text-red-500 bg-red-100 px-1.5 py-0.5 rounded-full border border-red-200">
-                    审核中
+                    {{ $t('modals.comments.underReview') }}
                   </div>
                 </div>
               </div>
@@ -201,7 +201,7 @@
                 class="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
               >
                 <div class="i-mdi-comment-plus"></div>
-                <span>写评论</span>
+                <span>{{ $t('modals.comments.addComment') }}</span>
               </button>
             </div>
           </div>
@@ -217,8 +217,8 @@
             </div>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-gray-900">发表你的看法</h3>
-            <p class="text-sm text-gray-600">分享你的想法，与他人产生共鸣</p>
+            <h3 class="text-lg font-semibold text-gray-900">{{ $t('modals.comments.addComment') }}</h3>
+            <p class="text-sm text-gray-600">{{ $t('modals.comments.commentPlaceholder') }}</p>
           </div>
         </div>
         
@@ -227,7 +227,7 @@
           <div class="relative">
             <textarea
               v-model="commentContent"
-              placeholder="写下你的想法，可以是感同身受、建议鼓励或者简单的问候..."
+              :placeholder="$t('modals.comments.commentPlaceholder')"
               class="w-full p-4 border border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md"
               rows="4"
               maxlength="500"
@@ -263,7 +263,7 @@
                 />
                 <label for="commentAnonymous" class="flex items-center space-x-2 text-sm font-medium text-gray-700 cursor-pointer">
                   <div class="i-mdi-incognito text-gray-500"></div>
-                  <span>保持匿名</span>
+                  <span>{{ $t('modals.createPost.anonymous') }}</span>
                 </label>
                 <span class="text-xs text-gray-500 hidden sm:inline">(推荐)</span>
               </div>
@@ -272,20 +272,20 @@
               <div v-if="!isCommentAnonymous" class="space-y-2">
                 <label for="commentAuthor" class="flex items-center text-sm font-medium text-gray-700">
                   <div class="i-mdi-account-edit mr-1 flex-shrink-0"></div>
-                  <span>你的昵称</span>
+                  <span>{{ $t('modals.createPost.displayName') }}</span>
                 </label>
                 <input
                   id="commentAuthor"
                   v-model="commentAuthor"
                   type="text"
-                  placeholder="请输入你的昵称（最多20个字符）"
+                  :placeholder="$t('modals.createPost.namePlaceholder')"
                   maxlength="20"
                   required
                   class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm"
                 />
                 <div class="text-xs text-gray-500 flex items-center">
                   <div class="i-mdi-information-outline mr-1 flex-shrink-0"></div>
-                  <span>使用真实或虚拟昵称，让其他人认识你</span>
+                  <span>{{ $t('modals.createPost.nameLimit') }}</span>
                 </div>
               </div>
             </div>
@@ -297,7 +297,7 @@
                 @click="$emit('close')"
                 class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium rounded-lg transition-colors duration-200"
               >
-                取消
+                {{ $t('modals.createPost.cancel') }}
               </button>
               <button
                 type="submit"
@@ -317,7 +317,7 @@
                   v-else
                   :class="`i-mdi-${commentContent.trim() ? 'send' : 'send-outline'} ${commentContent.trim() ? 'animate-pulse' : ''}`"
                 ></div>
-                <span>{{ isSubmitting ? '发表中...' : '发表评论' }}</span>
+                <span>{{ isSubmitting ? $t('messages.loading') : $t('modals.comments.submit') }}</span>
               </button>
             </div>
           </div>
@@ -326,11 +326,11 @@
           <div class="flex items-start space-x-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <div class="i-mdi-information text-blue-500 text-sm mt-0.5 flex-shrink-0"></div>
             <div class="text-xs text-blue-700">
-              <p class="font-medium mb-1">友善评论守则</p>
+              <p class="font-medium mb-1">{{ $t('modals.createPost.privacyTitle') }}</p>
               <ul class="space-y-0.5 list-disc list-inside text-blue-600">
-                <li>保持友善，互相尊重</li>
-                <li>分享真实感受和建议</li>
-                <li>避免发布不当内容</li>
+                <li>{{ $t('modals.createPost.privacy1') }}</li>
+                <li>{{ $t('modals.createPost.privacy2') }}</li>
+                <li>{{ $t('modals.createPost.privacy3') }}</li>
               </ul>
             </div>
           </div>
@@ -341,7 +341,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from '#imports'
 import type { EmotionPost, EmotionType } from '../types/emotion'
 
 // 定义props
@@ -350,6 +351,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+// 国际化
+const { t: $t } = useI18n()
 
 // 定义事件
 const emit = defineEmits<{
@@ -378,25 +382,25 @@ const getCurrentUserId = () => {
   return ''
 }
 
-// 情绪配置
-const emotionConfig = {
-  happy: { label: '开心', icon: 'mdi:emoticon-happy' },
-  sad: { label: '难过', icon: 'mdi:emoticon-sad' },
-  angry: { label: '愤怒', icon: 'mdi:emoticon-angry' },
-  anxious: { label: '焦虑', icon: 'mdi:emoticon-confused' },
-  excited: { label: '兴奋', icon: 'mdi:emoticon-excited' },
-  frustrated: { label: '沮丧', icon: 'mdi:emoticon-cry' },
-  grateful: { label: '感恩', icon: 'mdi:emoticon-kiss' },
-  neutral: { label: '平静', icon: 'mdi:emoticon-neutral' }
-}
+// 情绪配置 - 使用国际化
+const emotionConfig = computed(() => ({
+  happy: { label: $t('emotions.happy'), icon: 'mdi:emoticon-happy' },
+  sad: { label: $t('emotions.sad'), icon: 'mdi:emoticon-sad' },
+  angry: { label: $t('emotions.angry'), icon: 'mdi:emoticon-angry' },
+  anxious: { label: $t('emotions.anxious'), icon: 'mdi:emoticon-confused' },
+  excited: { label: $t('emotions.excited'), icon: 'mdi:emoticon-excited' },
+  frustrated: { label: $t('emotions.frustrated'), icon: 'mdi:emoticon-cry' },
+  grateful: { label: $t('emotions.grateful'), icon: 'mdi:emoticon-kiss' },
+  neutral: { label: $t('emotions.neutral'), icon: 'mdi:emoticon-neutral' }
+}))
 
 // 方法
 const getEmotionLabel = (emotion: EmotionType): string => {
-  return emotionConfig[emotion]?.label || emotion
+  return emotionConfig.value[emotion]?.label || emotion
 }
 
 const getEmotionIcon = (emotion: EmotionType): string => {
-  return emotionConfig[emotion]?.icon || 'mdi:emoticon-neutral'
+  return emotionConfig.value[emotion]?.icon || 'mdi:emoticon-neutral'
 }
 
 const formatTime = (timestamp: Date | string): string => {
@@ -405,7 +409,7 @@ const formatTime = (timestamp: Date | string): string => {
   
   // 检查是否为有效日期
   if (isNaN(timeObj.getTime())) {
-    return '未知时间'
+    return $t('time.unknown')
   }
   
   const diff = now.getTime() - timeObj.getTime()
@@ -414,9 +418,9 @@ const formatTime = (timestamp: Date | string): string => {
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   
-  if (minutes < 60) return `${minutes}分钟前`
-  if (hours < 24) return `${hours}小时前`
-  if (days < 7) return `${days}天前`
+  if (minutes < 60) return $t('time.minutesAgo', { minutes })
+  if (hours < 24) return $t('time.hoursAgo', { hours })
+  if (days < 7) return $t('time.daysAgo', { days })
   
   return timeObj.toLocaleDateString()
 }
@@ -452,7 +456,7 @@ const submitComment = async () => {
     isCommentAnonymous.value = true
   } catch (error) {
     console.error('添加评论失败:', error)
-    alert('添加评论失败，请重试')
+    alert($t('report.addCommentFailed'))
   } finally {
     isSubmitting.value = false
   }
@@ -471,24 +475,24 @@ const focusCommentInput = () => {
 
 const getCommentReportTitle = (comment: any): string => {
   if (reportingComments.value.has(comment.id)) {
-    return '处理中...'
+    return $t('report.processing')
   }
   
   if (!comment.isReported) {
-    return '举报不当评论'
+    return $t('report.reportComment')
   }
   
   const currentUserId = getCurrentUserId()
   if (comment.reportedBy === currentUserId) {
-    return '已举报 - 点击取消举报'
+    return $t('report.cancelReportComment')
   }
   
-  return '此评论已被其他用户举报'
+  return $t('modals.comments.commentReported')
 }
 
 const getCommentReportLabel = (comment: any): string => {
   const currentUserId = getCurrentUserId()
-  return comment.reportedBy === currentUserId ? '已举报' : '被举报'
+  return comment.reportedBy === currentUserId ? $t('messages.reported') : $t('messages.reported')
 }
 
 const toggleReportComment = (comment: any) => {
@@ -501,7 +505,7 @@ const toggleReportComment = (comment: any) => {
   
   // 如果评论已被举报，且不是当前用户举报的，则不允许操作
   if (comment.isReported && comment.reportedBy !== currentUserId) {
-    alert('此评论已被其他用户举报，您无法取消他人的举报')
+    alert($t('modals.comments.commentReported'))
     return
   }
   

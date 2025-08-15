@@ -4,8 +4,8 @@
       <!-- 头部 -->
       <div class="flex items-center justify-between p-6 border-b border-gray-100 modal-header">
         <h2 class="text-2xl font-bold text-gray-900">
-          <span v-if="props.initialEmotion">发泄{{ getEmotionLabel(props.initialEmotion) }}的情绪</span>
-          <span v-else>发泄你的情绪</span>
+          <span v-if="props.initialEmotion">{{ $t('modals.createPost.titleWithEmotion', { emotion: getEmotionLabel(props.initialEmotion) }) }}</span>
+          <span v-else>{{ $t('modals.createPost.title') }}</span>
         </h2>
         <button 
           @click="$emit('close')"
@@ -21,7 +21,7 @@
         <!-- 情绪选择 -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-3">
-            选择你的情绪状态 <span class="text-red-500">*</span>
+            {{ $t('modals.createPost.selectEmotion') }} <span class="text-red-500">*</span>
           </label>
 
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -46,12 +46,12 @@
         <!-- 内容输入 -->
         <div>
           <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
-            写下你的心里话 <span class="text-red-500">*</span>
+            {{ $t('modals.createPost.writeContent') }} <span class="text-red-500">*</span>
           </label>
           <textarea
             id="content"
             v-model="content"
-            placeholder="在这里写下你的感受、想法或者想要发泄的情绪..."
+            :placeholder="$t('modals.createPost.contentPlaceholder')"
             class="textarea"
             rows="6"
             maxlength="1000"
@@ -59,7 +59,7 @@
           ></textarea>
           <div class="flex justify-between items-center mt-2">
             <span class="text-sm text-gray-500">
-              支持表情符号和换行
+              {{ $t('modals.createPost.emojiSupport') }}
             </span>
             <span class="text-sm text-gray-500">
               {{ content.length }}/1000
@@ -70,7 +70,7 @@
         <!-- 标签 -->
         <div>
           <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">
-            添加标签（可选）
+            {{ $t('modals.createPost.addTags') }}
           </label>
           <div class="flex flex-wrap gap-2 mb-2">
             <span
@@ -93,7 +93,7 @@
               id="tagInput"
               v-model="tagInput"
               @keydown.enter.prevent="addTag"
-              placeholder="输入标签后按回车添加"
+              :placeholder="$t('modals.createPost.tagPlaceholder')"
               class="input flex-1"
               maxlength="20"
             />
@@ -102,11 +102,11 @@
               @click="addTag"
               class="btn-secondary"
             >
-              添加
+              {{ $t('modals.createPost.add') }}
             </button>
           </div>
           <p class="text-sm text-gray-500 mt-1">
-            最多添加5个标签，每个标签不超过20个字符
+            {{ $t('modals.createPost.tagLimit') }}
           </p>
         </div>
 
@@ -120,26 +120,26 @@
               class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
             <label for="anonymous" class="text-sm font-medium text-gray-700">
-              保持匿名（推荐）
+              {{ $t('modals.createPost.anonymous') }}
             </label>
           </div>
           
           <!-- 非匿名时的用户名输入 -->
           <div v-if="!isAnonymous" class="mt-3">
             <label for="author" class="block text-sm font-medium text-gray-700 mb-2">
-              显示名称 <span class="text-red-500">*</span>
+              {{ $t('modals.createPost.displayName') }} <span class="text-red-500">*</span>
             </label>
             <input
               id="author"
               v-model="author"
               type="text"
-              placeholder="输入你想显示的名称"
+              :placeholder="$t('modals.createPost.namePlaceholder')"
               class="input"
               maxlength="20"
               :required="!isAnonymous"
             />
             <p class="text-sm text-gray-500 mt-1">
-              此名称将会显示在你的帖子上，最多20个字符
+              {{ $t('modals.createPost.nameLimit') }}
             </p>
           </div>
         </div>
@@ -149,11 +149,11 @@
           <div class="flex items-start space-x-3">
             <div class="i-mdi-information text-blue-500 text-xl mt-0.5"></div>
             <div class="text-sm text-blue-700">
-              <p class="font-medium mb-1">隐私保护承诺</p>
+              <p class="font-medium mb-1">{{ $t('modals.createPost.privacyTitle') }}</p>
               <ul class="space-y-1">
-                <li>• 所有内容完全匿名，不会收集任何个人信息</li>
-                <li>• 内容仅用于情绪发泄，不会被用于其他目的</li>
-                <li>• 请文明发言，避免发布不当内容</li>
+                <li>• {{ $t('modals.createPost.privacy1') }}</li>
+                <li>• {{ $t('modals.createPost.privacy2') }}</li>
+                <li>• {{ $t('modals.createPost.privacy3') }}</li>
               </ul>
             </div>
           </div>
@@ -166,7 +166,7 @@
               @click="$emit('close')"
               class="px-4 py-2 rounded-lg font-medium transition-colors duration-200 bg-gray-200 hover:bg-gray-300 text-gray-800"
             >
-              取消
+              {{ $t('modals.createPost.cancel') }}
             </button>
             <button
               type="submit"
@@ -180,7 +180,7 @@
               class="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-600"
             >
               <div class="i-mdi-send"></div>
-              <span>发布情绪</span>
+              <span>{{ $t('modals.createPost.submit') }}</span>
             </button>
           </div>
         </form>
@@ -191,7 +191,11 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useI18n } from '#imports'
 import type { EmotionType, CreatePostData } from '../types/emotion'
+
+// 国际化
+const { t: $t } = useI18n()
 
 // 定义props
 const props = defineProps<{
@@ -219,17 +223,17 @@ const tagInput = ref('')
 const isAnonymous = ref(true)
 const author = ref('')
 
-// 情绪配置
-const emotions: { type: EmotionType; label: string; icon: string }[] = [
-  { type: 'happy', label: '开心', icon: 'mdi:emoticon-happy' },
-  { type: 'sad', label: '难过', icon: 'mdi:emoticon-sad' },
-  { type: 'angry', label: '愤怒', icon: 'mdi:emoticon-angry' },
-  { type: 'anxious', label: '焦虑', icon: 'mdi:emoticon-confused' },
-  { type: 'excited', label: '兴奋', icon: 'mdi:emoticon-excited' },
-  { type: 'frustrated', label: '沮丧', icon: 'mdi:emoticon-cry' },
-  { type: 'grateful', label: '感恩', icon: 'mdi:emoticon-kiss' },
-  { type: 'neutral', label: '平静', icon: 'mdi:emoticon-neutral' }
-]
+// 情绪配置 - 使用国际化
+const emotions = computed(() => [
+  { type: 'happy' as const, label: $t('emotions.happy'), icon: 'mdi:emoticon-happy' },
+  { type: 'sad' as const, label: $t('emotions.sad'), icon: 'mdi:emoticon-sad' },
+  { type: 'angry' as const, label: $t('emotions.angry'), icon: 'mdi:emoticon-angry' },
+  { type: 'anxious' as const, label: $t('emotions.anxious'), icon: 'mdi:emoticon-confused' },
+  { type: 'excited' as const, label: $t('emotions.excited'), icon: 'mdi:emoticon-excited' },
+  { type: 'frustrated' as const, label: $t('emotions.frustrated'), icon: 'mdi:emoticon-cry' },
+  { type: 'grateful' as const, label: $t('emotions.grateful'), icon: 'mdi:emoticon-kiss' },
+  { type: 'neutral' as const, label: $t('emotions.neutral'), icon: 'mdi:emoticon-neutral' }
+])
 
 // 计算属性
 const canSubmit = computed(() => {
@@ -242,7 +246,7 @@ const canSubmit = computed(() => {
 
 // 工具方法
 const getEmotionLabel = (emotion: EmotionType) => {
-  const emotionItem = emotions.find(e => e.type === emotion)
+  const emotionItem = emotions.value.find(e => e.type === emotion)
   return emotionItem ? emotionItem.label : emotion
 }
 

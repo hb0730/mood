@@ -6,9 +6,10 @@ export default defineNuxtConfig({
   // 全局禁用SSR以彻底解决水合错误
   ssr: true,
   
-  // 启用UnoCSS
+  // 启用UnoCSS和国际化
   modules: [
-    '@unocss/nuxt'
+    '@unocss/nuxt',
+    '@nuxtjs/i18n'
   ],
   
   // UnoCSS配置
@@ -113,6 +114,26 @@ export default defineNuxtConfig({
           })
         }
       ]
+    }
+  },
+  
+  // 国际化配置
+  i18n: {
+    vueI18n: '~/locales/i18n.config.ts',
+    locales: [
+      { code: 'zh-CN', name: '中文', flag: '🇨🇳' },
+      { code: 'en', name: 'English', flag: '🇺🇸' },
+      { code: 'ja', name: '日本語', flag: '🇯🇵' }
+    ],
+    defaultLocale: 'zh-CN',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
+    },
+    bundle:{
+      optimizeTranslationDirective: false
     }
   },
   

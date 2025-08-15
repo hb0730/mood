@@ -9,8 +9,8 @@
               <div class="i-mdi-heart text-white text-xl"></div>
             </div>
             <h1 class="text-lg md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              <span class="hidden sm:inline">匿名情绪发泄站</span>
-              <span class="sm:hidden">情绪发泄站</span>
+              <span class="hidden sm:inline">{{ $t('app.name') }}</span>
+              <span class="sm:hidden">{{ $t('app.name') }}</span>
             </h1>
           </div>
           
@@ -20,8 +20,8 @@
               class="btn-primary flex items-center space-x-1 md:space-x-2 text-sm md:text-base whitespace-nowrap"
             >
               <div class="i-mdi-plus text-base md:text-lg"></div>
-              <span class="hidden sm:inline">发泄情绪</span>
-              <span class="sm:hidden">发泄</span>
+              <span class="hidden sm:inline">{{ $t('actions.post') }}</span>
+              <span class="sm:hidden">{{ $t('actions.post') }}</span>
             </button>
             
             <button 
@@ -29,9 +29,12 @@
               class="btn-secondary flex items-center space-x-1 md:space-x-2 text-sm md:text-base whitespace-nowrap"
             >
               <div class="i-mdi-chart-line text-base md:text-lg"></div>
-              <span class="hidden sm:inline">统计</span>
-              <span class="sm:hidden">数据</span>
+              <span class="hidden sm:inline">{{ $t('admin.stats') }}</span>
+              <span class="sm:hidden">{{ $t('admin.stats') }}</span>
             </button>
+            
+            <!-- 语言切换器 -->
+            <LanguageSwitcher />
           </div>
         </div>
       </div>
@@ -40,15 +43,15 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-28 md:pt-32 main-content">
        <div class="text-center mb-12" v-once>
         <h2 class="text-4xl font-bold text-white mb-4">
-          在这里，你可以安全地发泄情绪
+          {{ $t('app.tagline') }}
         </h2>
         <p class="text-xl text-white/90 max-w-2xl mx-auto">
-          这是一个完全匿名的平台，没有人知道你是谁。说出你的心里话，释放内心的压力。
+          {{ $t('app.description') }}
         </p>
       </div>
 
       <div class="mb-8">
-        <h3 class="text-2xl font-semibold text-white mb-6 text-center">选择你的情绪状态</h3>
+        <h3 class="text-2xl font-semibold text-white mb-6 text-center">{{ $t('emotions.selectTitle') }}</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto px-4">
           <button
             v-for="emotion in emotions"
@@ -69,7 +72,7 @@
       <div class="space-y-6">
         <div class="flex justify-between items-center">
           <h3 class="text-2xl font-semibold text-white">
-            {{ selectedEmotion ? `${getEmotionLabel(selectedEmotion)}的帖子` : '所有帖子' }}
+            {{ selectedEmotion ? $t('posts.emotionPosts', { emotion: getEmotionLabel(selectedEmotion) }) : $t('posts.allPosts') }}
           </h3>
           <div class="flex space-x-2">
             <button 
@@ -77,7 +80,7 @@
               class="btn-secondary flex items-center space-x-2"
             >
               <div class="i-mdi-refresh"></div>
-              <span>刷新</span>
+              <span>{{ $t('actions.refresh') }}</span>
             </button>
             <button 
               @click="clearFilter"
@@ -85,7 +88,7 @@
               class="btn-secondary flex items-center space-x-2"
             >
               <div class="i-mdi-close"></div>
-              <span>清除筛选</span>
+              <span>{{ $t('actions.clearFilter') }}</span>
             </button>
           </div>
         </div>
@@ -108,11 +111,11 @@
               <div class="flex items-center space-x-2">
                 <div class="i-mdi-alert-circle text-red-500 animate-pulse"></div>
                 <div class="flex-1">
-                  <p class="text-sm font-medium text-red-800">内容已被举报</p>
-                  <p class="text-xs text-red-600">此内容已被用户举报，正在等待管理员审核。</p>
+                  <p class="text-sm font-medium text-red-800">{{ $t('messages.contentReported') }}</p>
+                  <p class="text-xs text-red-600">{{ $t('messages.contentUnderReview') }}</p>
                 </div>
                 <div class="text-xs text-red-500 bg-red-100 px-2 py-1 rounded-full border border-red-200">
-                  审核中
+                  {{ $t('messages.underReview') }}
                 </div>
               </div>
             </div>
@@ -124,7 +127,7 @@
                 </div>
                 <div>
                   <p class="font-medium text-gray-900">
-                    {{ post.isAnonymous ? '匿名用户' : post.author || '匿名用户' }}
+                    {{ post.isAnonymous ? $t('common.anonymousUser') : post.author || $t('common.anonymousUser') }}
                   </p>
                   <p class="text-sm text-gray-500">
                     {{ formatTime(post.timestamp) }}
@@ -136,10 +139,10 @@
                 <div
                   v-if="post.isReported"
                   class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium flex items-center space-x-1 border border-red-200 animate-pulse"
-                  title="此内容已被举报，等待审核"
+                  :title="$t('messages.contentUnderReview')"
                 >
                   <div class="i-mdi-flag text-xs"></div>
-                  <span>已举报</span>
+                  <span>{{ $t('messages.reported') }}</span>
                 </div>
                 
                 <!-- 情绪标签 -->
@@ -172,7 +175,7 @@
                     post.liked ? 'text-red-500 hover:text-red-600' : 'text-gray-500 hover:text-red-500',
                     likingPosts.has(post.id) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                   ]"
-                  :title="likingPosts.has(post.id) ? '处理中...' : (post.liked ? `已点赞 - 点击取消点赞 (${post.likes}个赞)` : `为这条帖子点赞 (${post.likes}个赞)`)"
+                  :title="likingPosts.has(post.id) ? $t('report.processing') : (post.liked ? $t('actions.like') + ' - ' + $t('actions.cancel') + ` (${post.likes}${$t('common.likes')})` : $t('actions.like') + ` (${post.likes}${$t('common.likes')})`)"
                 >
                   <div 
                     v-if="likingPosts.has(post.id)"
@@ -198,7 +201,7 @@
                 <button 
                   @click="sharePost(post)"
                   class="text-gray-500 hover:text-green-500 transition-colors"
-                  title="分享这条帖子 - 让更多人看到这份情绪共鸣"
+                  :title="$t('actions.share') + ' - ' + $t('messages.shareDescription')"
                 >
                   <div class="i-mdi-share"></div>
                 </button>
@@ -222,7 +225,7 @@
                     :class="`i-mdi-${post.isReported ? 'flag' : 'flag-outline'} text-sm ${post.isReported ? 'text-red-500 animate-pulse' : 'hover:scale-110 transition-transform'}`"
                   ></div>
                   <span v-if="post.isReported" class="text-xs">
-                    {{ post.reportedBy === currentUserId ? '已举报' : '被举报' }}
+                    {{ post.reportedBy === currentUserId ? $t('messages.reported') : $t('messages.reported') }}
                   </span>
                 </button>
               </div>
@@ -232,8 +235,8 @@
 
         <div v-if="filteredPosts.length === 0 && !isLoading" class="text-center py-12">
           <div class="i-mdi-emoticon-sad text-6xl text-gray-400 mx-auto mb-4"></div>
-          <h3 class="text-xl font-medium text-gray-600 mb-2">暂无帖子</h3>
-          <p class="text-gray-500">成为第一个发泄情绪的人吧！</p>
+          <h3 class="text-xl font-medium text-gray-600 mb-2">{{ $t('messages.noPosts') }}</h3>
+          <p class="text-gray-500">{{ $t('messages.beFirstToPost') }}</p>
         </div>
 
         <div v-if="hasMorePosts && filteredPosts.length > 0" class="text-center py-8">
@@ -244,13 +247,13 @@
           >
             <div v-if="isLoading" class="i-mdi-loading animate-spin"></div>
             <div v-else class="i-mdi-chevron-down"></div>
-            <span>{{ isLoading ? '加载中...' : '加载更多' }}</span>
+            <span>{{ isLoading ? $t('messages.loading') : $t('actions.loadMore') }}</span>
           </button>
         </div>
 
         <div v-if="isLoading && filteredPosts.length === 0" class="text-center py-12">
           <div class="i-mdi-loading text-4xl text-blue-500 animate-spin mx-auto mb-4"></div>
-          <p class="text-gray-500">加载中...</p>
+          <p class="text-gray-500">{{ $t('messages.loading') }}</p>
         </div>
       </div>
     </main>
@@ -266,23 +269,23 @@
                 <div class="i-mdi-heart text-white text-sm"></div>
               </div>
               <h3 class="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                匿名情绪发泄站
+                {{ $t('app.name') }}
               </h3>
             </div>
             <p class="text-gray-600 text-sm">
-              一个安全、匿名的情绪发泄平台，让每个人都能自由表达内心感受
+              {{ $t('app.description') }}
             </p>
           </div>
 
           <!-- 版权和归属信息 -->
           <div class="text-center md:text-right">
             <p class="text-gray-500 text-sm">
-              © {{ new Date().getFullYear() }} 匿名情绪发泄站. 保留所有权利.
+              © {{ new Date().getFullYear() }} {{ $t('app.name') }}. {{ $t('common.allRightsReserved') }}.
             </p>
             <p class="text-gray-400 text-xs mt-1">
-              基于 <a href="https://nuxt.com/" target="_blank" class="text-blue-500 hover:text-blue-600">Nuxt 3</a> + 
+              {{ $t('common.builtWith') }} <a href="https://nuxt.com/" target="_blank" class="text-blue-500 hover:text-blue-600">Nuxt 3</a> + 
               <a href="https://vuejs.org/" target="_blank" class="text-blue-500 hover:text-blue-600">Vue 3</a> + 
-              <a href="https://unocss.dev/" target="_blank" class="text-blue-500 hover:text-blue-600">UnoCSS</a> 构建
+              <a href="https://unocss.dev/" target="_blank" class="text-blue-500 hover:text-blue-600">UnoCSS</a>
             </p>
           </div>
         </div>
@@ -326,12 +329,16 @@
 import { ref, computed, onMounted } from 'vue'
 // 使用UnoCSS图标系统，不再需要@iconify/vue
 import type { EmotionPost, EmotionType } from '../types/emotion'
+import { useI18n } from '#imports'
 import CreatePostModal from '../components/CreatePostModal.vue'
 import StatsModal from '../components/StatsModal.vue'
 import CommentsModal from '../components/CommentsModal.vue'
 import ReportModal from '../components/ReportModal.vue'
-
+import LanguageSwitcher from '../components/LanguageSwitcher.vue'
 // SSR已在nuxt.config.ts中全局禁用
+
+// 国际化
+const { t: $t } = useI18n()
 
 // 响应式数据
 const showCreatePost = ref(false)
@@ -403,17 +410,17 @@ const emotionStats = ref({
   avgCommentsPerPost: 0
 })
 
-// 情绪配置
-const emotions: { type: EmotionType; label: string; icon: string; description: string }[] = [
-  { type: 'happy', label: '开心', icon: 'mdi:emoticon-happy', description: '感到快乐和满足' },
-  { type: 'sad', label: '难过', icon: 'mdi:emoticon-sad', description: '感到悲伤和失落' },
-  { type: 'angry', label: '愤怒', icon: 'mdi:emoticon-angry', description: '感到愤怒和不满' },
-  { type: 'anxious', label: '焦虑', icon: 'mdi:emoticon-confused', description: '感到焦虑和担心' },
-  { type: 'excited', label: '兴奋', icon: 'mdi:emoticon-excited', description: '感到兴奋和激动' },
-  { type: 'frustrated', label: '沮丧', icon: 'mdi:emoticon-cry', description: '感到沮丧和挫败' },
-  { type: 'grateful', label: '感恩', icon: 'mdi:emoticon-kiss', description: '感到感恩和满足' },
-  { type: 'neutral', label: '平静', icon: 'mdi:emoticon-neutral', description: '感到平静和放松' }
-]
+// 情绪配置 - 使用计算属性实现完全国际化
+const emotions = computed(() => [
+  { type: 'happy' as const, label: $t('emotions.happy'), icon: 'mdi:emoticon-happy', description: $t('emotions.happyDesc') },
+  { type: 'sad' as const, label: $t('emotions.sad'), icon: 'mdi:emoticon-sad', description: $t('emotions.sadDesc') },
+  { type: 'angry' as const, label: $t('emotions.angry'), icon: 'mdi:emoticon-angry', description: $t('emotions.angryDesc') },
+  { type: 'anxious' as const, label: $t('emotions.anxious'), icon: 'mdi:emoticon-confused', description: $t('emotions.anxiousDesc') },
+  { type: 'excited' as const, label: $t('emotions.excited'), icon: 'mdi:emoticon-excited', description: $t('emotions.excitedDesc') },
+  { type: 'frustrated' as const, label: $t('emotions.frustrated'), icon: 'mdi:emoticon-cry', description: $t('emotions.frustratedDesc') },
+  { type: 'grateful' as const, label: $t('emotions.grateful'), icon: 'mdi:emoticon-kiss', description: $t('emotions.gratefulDesc') },
+  { type: 'neutral' as const, label: $t('emotions.neutral'), icon: 'mdi:emoticon-neutral', description: $t('emotions.neutralDesc') }
+])
 
 // 计算属性 - 现在筛选在后端完成，这里直接返回posts
 const filteredPosts = computed(() => {
@@ -527,13 +534,13 @@ const commentsModalRef = ref()
 
 const likePost = async (postId: string) => {
   if (!currentUserId.value) {
-    alert('请稍后重试，用户信息加载中...')
+    alert($t('messages.userInfoLoading'))
     return
   }
   
   // 防止重复点击
   if (likingPosts.value.has(postId)) {
-    console.log('点赞请求进行中，请稍候...')
+    console.log($t('messages.likeRequestInProgress'))
     return
   }
   
@@ -557,11 +564,11 @@ const likePost = async (postId: string) => {
     
     // 处理重复点赞错误
     if (error.statusCode === 409) {
-      console.log('检测到重复点赞，刷新帖子状态')
+      console.log($t('messages.duplicateLikeDetected'))
       // 重新获取这个帖子的最新状态
       await refreshPosts()
     } else {
-      alert('点赞失败，请重试')
+      alert($t('messages.likeFailed'))
     }
   } finally {
     // 释放锁定状态
@@ -585,24 +592,24 @@ const sharePost = (post: EmotionPost) => {
   } else {
     // 复制到剪贴板
     navigator.clipboard.writeText(post.content)
-    alert('内容已复制到剪贴板')
+    alert($t('messages.contentCopied'))
   }
 }
 
 const getReportButtonTitle = (post: EmotionPost): string => {
   if (reportingPosts.value.has(post.id)) {
-    return '处理中...'
+    return $t('report.processing')
   }
   
   if (!post.isReported) {
-    return '举报不当内容 - 帮助维护社区环境'
+    return $t('report.reportContent') + ' - ' + $t('report.reportPurpose')
   }
   
   if (post.reportedBy === currentUserId.value) {
-    return '已举报 - 点击取消举报'
+    return $t('report.cancelReport') + ' - ' + $t('report.clickToCancel')
   }
   
-  return '此内容已被其他用户举报'
+  return $t('messages.contentReportedByOthers')
 }
 
 const toggleReportPost = (post: EmotionPost) => {
@@ -613,7 +620,7 @@ const toggleReportPost = (post: EmotionPost) => {
   
   // 如果内容已被举报，且不是当前用户举报的，则不允许操作
   if (post.isReported && post.reportedBy !== currentUserId.value) {
-    alert('此内容已被其他用户举报，您无法取消他人的举报')
+    alert($t('messages.cannotCancelOthersReport'))
     return
   }
   
@@ -635,7 +642,7 @@ const handleReportConfirm = async (reason?: string) => {
   if (!reportTarget.value) return
   
   const { type, id, isReporting } = reportTarget.value
-  const action = isReporting ? '举报' : '取消举报'
+  const action = isReporting ? $t('actions.report') : $t('report.cancelReport')
   
   // 添加到处理中状态，防止重复操作
   if (type === 'post') {
@@ -685,11 +692,11 @@ const handleReportConfirm = async (reason?: string) => {
     }
     
     closeReportModal()
-    alert(`${action}成功${isReporting ? '，感谢您的反馈！' : '！'}`)
+    alert(`${action}${$t('messages.success')}${isReporting ? $t('messages.thanksForFeedback') : '！'}`)
     
   } catch (error) {
     console.error(`Failed to ${action}:`, error)
-    alert(`${action}失败，请稍后重试`)
+    alert(`${action}${$t('messages.failed')}，${$t('messages.pleaseRetry')}`)
   } finally {
     // 移除处理中状态
     if (type === 'post') {
@@ -728,7 +735,7 @@ const onPostCreated = async (newPost: EmotionPost) => {
     updateStats()
   } catch (error) {
     console.error('Failed to create post:', error)
-    alert('发布失败，请重试')
+    alert($t('messages.postFailed'))
   }
 }
 
@@ -789,12 +796,12 @@ const updateStats = async () => {
 }
 
 const getEmotionLabel = (emotion: EmotionType): string => {
-  const found = emotions.find(e => e.type === emotion)
+  const found = emotions.value.find(e => e.type === emotion)
   return found ? found.label : emotion
 }
 
 const getEmotionIcon = (emotion: EmotionType): string => {
-  const found = emotions.find(e => e.type === emotion)
+  const found = emotions.value.find(e => e.type === emotion)
   return found ? found.icon : 'mdi:emoticon-neutral'
 }
 
@@ -807,9 +814,9 @@ const formatTime = (timestamp: Date | string): string => {
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   
-  if (minutes < 60) return `${minutes}分钟前`
-  if (hours < 24) return `${hours}小时前`
-  if (days < 7) return `${days}天前`
+  if (minutes < 60) return $t('time.minutesAgo', { minutes })
+if (hours < 24) return $t('time.hoursAgo', { hours })
+if (days < 7) return $t('time.daysAgo', { days })
   
   return timeObj.toLocaleDateString()
 }
