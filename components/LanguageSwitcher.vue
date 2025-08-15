@@ -2,10 +2,6 @@
   <div class="language-switcher">
     <div class="current-locale" @click="toggleDropdown">
       <span class="flag">{{ currentFlag }}</span>
-      <span class="name">{{ currentName }}</span>
-      <div class="chevron" :class="{ 'rotated': isOpen }">
-        <div class="i-mdi-chevron-down"></div>
-      </div>
     </div>
     
     <div v-if="isOpen" class="dropdown">
@@ -84,6 +80,12 @@ onUnmounted(() => {
 .language-switcher {
   position: relative;
   display: inline-block;
+}
+
+@media screen and (max-width: 768px){
+  .language-switcher {
+    display: none;
+  }
 }
 
 .current-locale {
