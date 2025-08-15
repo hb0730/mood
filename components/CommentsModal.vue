@@ -65,13 +65,16 @@
               :key="comment.id"
               :class="[
                 'group relative rounded-xl p-4 transition-all duration-200',
-                comment.isReported 
-                  ? 'bg-red-50 border-2 border-red-200 hover:border-red-300' 
-                  : 'bg-white border border-gray-100 hover:border-blue-200 hover:shadow-md'
+                // 暂时隐藏举报相关的样式
+                // comment.isReported 
+                //   ? 'bg-red-50 border-2 border-red-200 hover:border-red-300' 
+                //   : 'bg-white border border-gray-100 hover:border-blue-200 hover:shadow-md'
+                'bg-white border border-gray-100 hover:border-blue-200 hover:shadow-md'
               ]"
             >
               <!-- 被举报评论警告横幅 -->
-              <div 
+              <!-- 暂时隐藏举报相关展示 -->
+              <!-- <div 
                 v-if="comment.isReported" 
                 class="mb-3 p-2 bg-gradient-to-r from-red-50 to-orange-50 border-l-3 border-red-400 rounded-r-md"
               >
@@ -82,7 +85,7 @@
                     {{ $t('modals.comments.underReview') }}
                   </div>
                 </div>
-              </div>
+              </div> -->
               
               <!-- 连接线（除了最后一个评论） -->
               <div 
@@ -112,23 +115,24 @@
                   <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center space-x-2">
                       <span class="font-medium text-gray-900">
-                        {{ comment.isAnonymous ? '匿名用户' : comment.author || '匿名用户' }}
+                        {{ comment.isAnonymous ? $t('modals.comments.anonymousUser') : comment.author || $t('modals.comments.anonymousUser') }}
                       </span>
                       <span 
                         v-if="comment.isAnonymous"
                         class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs"
                       >
-                        匿名
+                        {{ $t('modals.comments.anonymous') }}
                       </span>
                       <!-- 被举报状态标识 -->
-                      <span 
+                      <!-- 暂时隐藏举报状态展示 -->
+                      <!-- <span 
                         v-if="comment.isReported"
                         class="px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium flex items-center space-x-1 border border-red-200 animate-pulse"
-                        title="此评论已被举报"
+                        :title="$t('modals.comments.commentReported')"
                       >
                         <div class="i-mdi-flag text-xs"></div>
-                        <span>已举报</span>
-                      </span>
+                        <span>{{ $t('modals.comments.reported') }}</span>
+                      </span> -->
                     </div>
                     <div class="flex items-center space-x-2">
                       <span class="text-sm text-gray-500">
@@ -144,20 +148,19 @@
                   </div>
                   
                   <!-- 互动按钮 -->
-                  <div class="flex items-center justify-between mt-3">
-                    <!-- 左侧：赞同和回复 -->
+                  <!-- 暂时隐藏赞同、回复和举报功能 -->
+                  <!-- <div class="flex items-center justify-between mt-3">
                     <div class="flex items-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <button class="flex items-center space-x-1 text-gray-500 hover:text-blue-500 transition-colors text-sm">
                         <div class="i-mdi-heart-outline text-sm"></div>
-                        <span>赞同</span>
+                        <span>{{ $t('modals.comments.like') }}</span>
                       </button>
                       <button class="flex items-center space-x-1 text-gray-500 hover:text-green-500 transition-colors text-sm">
                         <div class="i-mdi-reply text-sm"></div>
-                        <span>回复</span>
+                        <span>{{ $t('modals.comments.reply') }}</span>
                       </button>
                     </div>
                     
-                    <!-- 右侧：举报按钮 -->
                     <button 
                       @click="toggleReportComment(comment)"
                       :disabled="reportingComments.has(comment.id)"
@@ -182,7 +185,7 @@
                         {{ getCommentReportLabel(comment) }}
                       </span>
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -193,8 +196,8 @@
             <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <div class="i-mdi-comment-outline text-3xl text-blue-500"></div>
             </div>
-            <h4 class="text-lg font-medium text-gray-700 mb-2">暂无评论</h4>
-            <p class="text-gray-500 mb-4">成为第一个发表看法的人，开启讨论！</p>
+            <h4 class="text-lg font-medium text-gray-700 mb-2">{{ $t('modals.comments.noComments') }}</h4>
+            <p class="text-gray-500 mb-4">{{ $t('modals.comments.beFirst') }}</p>
             <div class="flex justify-center">
               <button
                 @click="focusCommentInput"
@@ -263,29 +266,29 @@
                 />
                 <label for="commentAnonymous" class="flex items-center space-x-2 text-sm font-medium text-gray-700 cursor-pointer">
                   <div class="i-mdi-incognito text-gray-500"></div>
-                  <span>{{ $t('modals.createPost.anonymous') }}</span>
+                  <span>{{ $t('modals.comments.anonymousRecommended') }}</span>
+                  <span class="text-xs text-gray-500">{{ $t('modals.comments.recommended') }}</span>
                 </label>
-                <span class="text-xs text-gray-500 hidden sm:inline">(推荐)</span>
               </div>
               
               <!-- 非匿名时的作者输入框 -->
               <div v-if="!isCommentAnonymous" class="space-y-2">
                 <label for="commentAuthor" class="flex items-center text-sm font-medium text-gray-700">
                   <div class="i-mdi-account-edit mr-1 flex-shrink-0"></div>
-                  <span>{{ $t('modals.createPost.displayName') }}</span>
+                  <span>{{ $t('modals.comments.displayName') }}</span>
                 </label>
                 <input
                   id="commentAuthor"
                   v-model="commentAuthor"
                   type="text"
-                  :placeholder="$t('modals.createPost.namePlaceholder')"
+                  :placeholder="$t('modals.comments.namePlaceholder')"
                   maxlength="20"
                   required
                   class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm"
                 />
                 <div class="text-xs text-gray-500 flex items-center">
                   <div class="i-mdi-information-outline mr-1 flex-shrink-0"></div>
-                  <span>{{ $t('modals.createPost.nameLimit') }}</span>
+                  <span>{{ $t('modals.comments.nameLimit') }}</span>
                 </div>
               </div>
             </div>
@@ -297,7 +300,7 @@
                 @click="$emit('close')"
                 class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium rounded-lg transition-colors duration-200"
               >
-                {{ $t('modals.createPost.cancel') }}
+                {{ $t('modals.comments.cancel') }}
               </button>
               <button
                 type="submit"
@@ -326,11 +329,11 @@
           <div class="flex items-start space-x-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <div class="i-mdi-information text-blue-500 text-sm mt-0.5 flex-shrink-0"></div>
             <div class="text-xs text-blue-700">
-              <p class="font-medium mb-1">{{ $t('modals.createPost.privacyTitle') }}</p>
+              <p class="font-medium mb-1">{{ $t('modals.comments.privacyTitle') }}</p>
               <ul class="space-y-0.5 list-disc list-inside text-blue-600">
-                <li>{{ $t('modals.createPost.privacy1') }}</li>
-                <li>{{ $t('modals.createPost.privacy2') }}</li>
-                <li>{{ $t('modals.createPost.privacy3') }}</li>
+                <li>{{ $t('modals.comments.privacy1') }}</li>
+                <li>{{ $t('modals.comments.privacy2') }}</li>
+                <li>{{ $t('modals.comments.privacy3') }}</li>
               </ul>
             </div>
           </div>

@@ -121,6 +121,7 @@
             />
             <label for="anonymous" class="text-sm font-medium text-gray-700">
               {{ $t('modals.createPost.anonymous') }}
+              <span class="text-xs text-gray-500 ml-1">{{ $t('modals.createPost.recommended') }}</span>
             </label>
           </div>
           

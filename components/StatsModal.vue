@@ -101,19 +101,19 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               <div>
                 <div class="text-2xl font-bold text-blue-600">{{ getTodayCount() }}</div>
-                <div class="text-sm text-gray-600">今天</div>
+                <div class="text-sm text-gray-600">{{ $t('modals.stats.today') }}</div>
               </div>
               <div>
                 <div class="text-2xl font-bold text-green-600">{{ getWeekCount() }}</div>
-                <div class="text-sm text-gray-600">本周</div>
+                <div class="text-sm text-gray-600">{{ $t('modals.stats.week') }}</div>
               </div>
               <div>
                 <div class="text-2xl font-bold text-purple-600">{{ getMonthCount() }}</div>
-                <div class="text-sm text-gray-600">本月</div>
+                <div class="text-sm text-gray-600">{{ $t('modals.stats.month') }}</div>
               </div>
               <div>
                 <div class="text-2xl font-bold text-orange-600">{{ stats.avgCommentsPerPost || 0 }}</div>
-                <div class="text-sm text-gray-600">平均评论</div>
+                <div class="text-sm text-gray-600">{{ $t('modals.stats.avgComments') }}</div>
               </div>
             </div>
           </div>
