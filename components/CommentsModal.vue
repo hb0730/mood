@@ -456,7 +456,7 @@ const submitComment = async () => {
     isCommentAnonymous.value = true
   } catch (error) {
     console.error('添加评论失败:', error)
-    alert($t('report.addCommentFailed'))
+            alert($t('modals.report.addCommentFailed'))
   } finally {
     isSubmitting.value = false
   }
@@ -475,16 +475,16 @@ const focusCommentInput = () => {
 
 const getCommentReportTitle = (comment: any): string => {
   if (reportingComments.value.has(comment.id)) {
-    return $t('report.processing')
+          return $t('modals.report.processing')
   }
   
   if (!comment.isReported) {
-    return $t('report.reportComment')
+          return $t('modals.report.reportComment')
   }
   
   const currentUserId = getCurrentUserId()
   if (comment.reportedBy === currentUserId) {
-    return $t('report.cancelReportComment')
+          return $t('modals.report.cancelReportComment')
   }
   
   return $t('modals.comments.commentReported')

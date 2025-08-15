@@ -175,7 +175,7 @@
                     post.liked ? 'text-red-500 hover:text-red-600' : 'text-gray-500 hover:text-red-500',
                     likingPosts.has(post.id) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                   ]"
-                  :title="likingPosts.has(post.id) ? $t('report.processing') : (post.liked ? $t('actions.like') + ' - ' + $t('actions.cancel') + ` (${post.likes}${$t('common.likes')})` : $t('actions.like') + ` (${post.likes}${$t('common.likes')})`)"
+                  :title="likingPosts.has(post.id) ? $t('modals.report.processing') : (post.liked ? $t('actions.like') + ' - ' + $t('actions.cancel') + ` (${post.likes}${$t('common.likes')})` : $t('actions.like') + ` (${post.likes}${$t('common.likes')})`)"
                 >
                   <div 
                     v-if="likingPosts.has(post.id)"
@@ -598,15 +598,15 @@ const sharePost = (post: EmotionPost) => {
 
 const getReportButtonTitle = (post: EmotionPost): string => {
   if (reportingPosts.value.has(post.id)) {
-    return $t('report.processing')
+            return $t('modals.report.processing')
   }
   
   if (!post.isReported) {
-    return $t('report.reportContent') + ' - ' + $t('report.reportPurpose')
+    return $t('modals.report.reportContent') + ' - ' + $t('modals.report.reportPurpose')
   }
   
   if (post.reportedBy === currentUserId.value) {
-    return $t('report.cancelReport') + ' - ' + $t('report.clickToCancel')
+    return $t('modals.report.cancelReport') + ' - ' + $t('modals.report.clickToCancel')
   }
   
   return $t('messages.contentReportedByOthers')
@@ -642,7 +642,7 @@ const handleReportConfirm = async (reason?: string) => {
   if (!reportTarget.value) return
   
   const { type, id, isReporting } = reportTarget.value
-  const action = isReporting ? $t('actions.report') : $t('report.cancelReport')
+          const action = isReporting ? $t('actions.report') : $t('modals.report.cancelReport')
   
   // 添加到处理中状态，防止重复操作
   if (type === 'post') {

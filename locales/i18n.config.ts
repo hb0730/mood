@@ -78,7 +78,8 @@ export default defineI18nConfig(() => ({
         likeRequestInProgress: '点赞请求进行中，请稍候...',
         duplicateLikeDetected: '检测到重复点赞，刷新帖子状态',
         likeFailed: '点赞失败，请重试',
-        contentCopied: '内容已复制到剪贴板'
+        contentCopied: '内容已复制到剪贴板',
+        thanksForFeedback: '，感谢您的反馈！'
       },
       admin: {
         title: '管理后台',
@@ -103,9 +104,9 @@ export default defineI18nConfig(() => ({
         sort: '排序',
         anonymousUser: '匿名用户',
         allRightsReserved: '保留所有权利',
-        builtWith: '基于'
+        builtWith: '基于',
+        likes: '个赞'
       },
-      likes: '个赞',
       languageSwitcher: {
         language: 'Language',
         chinese: '中文',
@@ -151,34 +152,7 @@ export default defineI18nConfig(() => ({
           noComments: '暂无评论',
           beFirst: '成为第一个评论的人吧！'
         },
-        time: {
-          unknown: '未知时间',
-          minutesAgo: '{minutes}分钟前',
-          hoursAgo: '{hours}小时前',
-          daysAgo: '{days}天前'
-        },
-        report: {
-          processing: '处理中...',
-          reportComment: '举报不当评论',
-          cancelReportComment: '取消举报评论',
-                  addCommentFailed: '添加评论失败，请重试',
-        reportContent: '举报不当内容',
-        reportPurpose: '帮助维护社区环境',
-        clickToCancel: '点击取消举报',
-        contentReportedByOthers: '此内容已被其他用户举报',
-        cannotCancelOthersReport: '此内容已被其他用户举报，您无法取消他人的举报',
-        thanksForFeedback: '，感谢您的反馈！',
-        failed: '失败',
-        pleaseRetry: '请稍后重试',
-        postFailed: '发布失败，请重试'
-      },
-      actions: {
-        like: '点赞',
-        cancel: '取消',
-        share: '分享',
-        report: '举报'
-      },
-      stats: {
+        stats: {
           title: '情绪统计',
           totalPosts: '总帖子数',
           recentActivity: '24小时活跃',
@@ -191,7 +165,48 @@ export default defineI18nConfig(() => ({
           today: '今日',
           week: '本周',
           month: '本月'
+        },
+        report: {
+          processing: '处理中...',
+          reportComment: '举报不当评论',
+          cancelReportComment: '取消举报评论',
+          addCommentFailed: '添加评论失败，请重试',
+          reportContent: '举报不当内容',
+          reportPurpose: '帮助维护社区环境',
+          clickToCancel: '点击取消举报',
+          contentReportedByOthers: '此内容已被其他用户举报',
+          cannotCancelOthersReport: '此内容已被其他用户举报，您无法取消他人的举报',
+          thanksForFeedback: '，感谢您的反馈！',
+          failed: '失败',
+          pleaseRetry: '请稍后重试',
+          postFailed: '发布失败，请重试',
+          reportTitle: '举报不当内容',
+          cancelReportTitle: '取消举报',
+          postContent: '帖子内容',
+          commentContent: '评论内容',
+          reportNotice: '举报须知',
+          reportNotice1: '举报内容将被管理员审核',
+          reportNotice2: '恶意举报将被处理',
+          reportNotice3: '举报成功后内容将被隐藏',
+          reportReason: '举报原因',
+          reportReasonOptional: '（可选）',
+          selectReason: '请选择举报原因',
+          spam: '垃圾信息',
+          harassment: '骚扰行为',
+          inappropriate: '不当内容',
+          misinformation: '虚假信息',
+          other: '其他原因',
+          cancel: '取消',
+          confirm: '确认举报',
+          cancelReport: '取消举报',
+          cancelReportDesc: '取消举报后，内容将恢复正常显示'
         }
+      },
+      time: {
+        unknown: '未知时间',
+        minutesAgo: '{minutes}分钟前',
+        hoursAgo: '{hours}小时前',
+        daysAgo: '{days}天前'
       }
     },
     'en': {
@@ -270,7 +285,8 @@ export default defineI18nConfig(() => ({
         likeRequestInProgress: 'Like request in progress, please wait...',
         duplicateLikeDetected: 'Duplicate like detected, refreshing post status',
         likeFailed: 'Like failed, please try again',
-        contentCopied: 'Content copied to clipboard'
+        contentCopied: 'Content copied to clipboard',
+        thanksForFeedback: ', thank you for your feedback!'
       },
       admin: {
         title: 'Admin Panel',
@@ -295,9 +311,9 @@ export default defineI18nConfig(() => ({
         sort: 'Sort',
         anonymousUser: 'Anonymous User',
         allRightsReserved: 'All rights reserved',
-        builtWith: 'Built with'
+        builtWith: 'Built with',
+        likes: ' likes'
       },
-      likes: ' likes',
       languageSwitcher: {
         language: 'Language',
         chinese: 'Chinese',
@@ -343,34 +359,7 @@ export default defineI18nConfig(() => ({
           noComments: 'No comments yet',
           beFirst: 'Be the first to comment!'
         },
-        time: {
-          unknown: 'Unknown time',
-          minutesAgo: '{minutes} minutes ago',
-          hoursAgo: '{hours} hours ago',
-          daysAgo: '{days} days ago'
-        },
-        report: {
-          processing: 'Processing...',
-          reportComment: 'Report inappropriate comment',
-          cancelReportComment: 'Cancel comment report',
-                  addCommentFailed: 'Failed to add comment, please try again',
-        reportContent: 'Report inappropriate content',
-        reportPurpose: 'Help maintain community environment',
-        clickToCancel: 'Click to cancel report',
-        contentReportedByOthers: 'This content has been reported by other users',
-        cannotCancelOthersReport: 'This content has been reported by other users, you cannot cancel others\' reports',
-        thanksForFeedback: ', thank you for your feedback!',
-        failed: ' failed',
-        pleaseRetry: 'please try again later',
-        postFailed: 'Post failed, please try again'
-      },
-      actions: {
-        like: 'Like',
-        cancel: 'Cancel',
-        share: 'Share',
-        report: 'Report'
-      },
-      stats: {
+        stats: {
           title: 'Emotion Statistics',
           totalPosts: 'Total Posts',
           recentActivity: '24h Active',
@@ -383,7 +372,48 @@ export default defineI18nConfig(() => ({
           today: 'Today',
           week: 'This Week',
           month: 'This Month'
+        },
+        report: {
+          processing: 'Processing...',
+          reportComment: 'Report inappropriate comment',
+          cancelReportComment: 'Cancel comment report',
+          addCommentFailed: 'Failed to add comment, please try again',
+          reportContent: 'Report inappropriate content',
+          reportPurpose: 'Help maintain community environment',
+          clickToCancel: 'Click to cancel report',
+          contentReportedByOthers: 'This content has been reported by other users',
+          cannotCancelOthersReport: 'This content has been reported by other users, you cannot cancel others\' reports',
+          thanksForFeedback: ', thank you for your feedback!',
+          failed: ' failed',
+          pleaseRetry: 'please try again later',
+          postFailed: 'Post failed, please try again',
+          reportTitle: 'Report Inappropriate Content',
+          cancelReportTitle: 'Cancel Report',
+          postContent: 'Post Content',
+          commentContent: 'Comment Content',
+          reportNotice: 'Report Notice',
+          reportNotice1: 'Reported content will be reviewed by administrators',
+          reportNotice2: 'Malicious reports will be handled',
+          reportNotice3: 'Content will be hidden after successful report',
+          reportReason: 'Report Reason',
+          reportReasonOptional: '(Optional)',
+          selectReason: 'Please select a report reason',
+          spam: 'Spam',
+          harassment: 'Harassment',
+          inappropriate: 'Inappropriate Content',
+          misinformation: 'Misinformation',
+          other: 'Other',
+          cancel: 'Cancel',
+          confirm: 'Confirm Report',
+          cancelReport: 'Cancel Report',
+          cancelReportDesc: 'After canceling the report, content will be restored to normal display'
         }
+      },
+      time: {
+        unknown: 'Unknown time',
+        minutesAgo: '{minutes} minutes ago',
+        hoursAgo: '{hours} hours ago',
+        daysAgo: '{days} days ago'
       }
     },
     'ja': {
@@ -462,7 +492,8 @@ export default defineI18nConfig(() => ({
         likeRequestInProgress: 'いいねリクエスト進行中、お待ちください...',
         duplicateLikeDetected: '重複いいねを検出、投稿状態を更新中',
         likeFailed: 'いいねに失敗しました、もう一度お試しください',
-        contentCopied: 'コンテンツがクリップボードにコピーされました'
+        contentCopied: 'コンテンツがクリップボードにコピーされました',
+        thanksForFeedback: '、フィードバックをありがとうございます！'
       },
       admin: {
         title: '管理パネル',
@@ -487,9 +518,9 @@ export default defineI18nConfig(() => ({
         sort: '並び替え',
         anonymousUser: '匿名ユーザー',
         allRightsReserved: '全権利を留保',
-        builtWith: '構築技術'
+        builtWith: '構築技術',
+        likes: 'いいね'
       },
-      likes: 'いいね',
       languageSwitcher: {
         language: '言語',
         chinese: '中国語',
@@ -535,34 +566,7 @@ export default defineI18nConfig(() => ({
           noComments: 'コメントがありません',
           beFirst: '最初のコメントをしてみましょう！'
         },
-        time: {
-          unknown: '不明な時間',
-          minutesAgo: '{minutes}分前',
-          hoursAgo: '{hours}時間前',
-          daysAgo: '{days}日前'
-        },
-        report: {
-          processing: '処理中...',
-          reportComment: '不適切なコメントを報告',
-          cancelReportComment: 'コメント報告をキャンセル',
-                  addCommentFailed: 'コメントの追加に失敗しました。もう一度お試しください',
-        reportContent: '不適切なコンテンツを報告',
-        reportPurpose: 'コミュニティ環境の維持に協力',
-        clickToCancel: 'クリックして報告をキャンセル',
-        contentReportedByOthers: 'このコンテンツは他のユーザーによって報告されています',
-        cannotCancelOthersReport: 'このコンテンツは他のユーザーによって報告されているため、他の人の報告をキャンセルすることはできません',
-        thanksForFeedback: '、フィードバックをありがとうございます！',
-        failed: '失敗',
-        pleaseRetry: '後でもう一度お試しください',
-        postFailed: '投稿に失敗しました、もう一度お試しください'
-      },
-      actions: {
-        like: 'いいね',
-        cancel: 'キャンセル',
-        share: '共有',
-        report: '報告'
-      },
-      stats: {
+        stats: {
           title: '感情統計',
           totalPosts: '総投稿数',
           recentActivity: '24時間アクティブ',
@@ -575,7 +579,48 @@ export default defineI18nConfig(() => ({
           today: '今日',
           week: '今週',
           month: '今月'
+        },
+        report: {
+          processing: '処理中...',
+          reportComment: '不適切なコメントを報告',
+          cancelReportComment: 'コメント報告をキャンセル',
+          addCommentFailed: 'コメントの追加に失敗しました。もう一度お試しください',
+          reportContent: '不適切なコンテンツを報告',
+          reportPurpose: 'コミュニティ環境の維持に協力',
+          clickToCancel: 'クリックして報告をキャンセル',
+          contentReportedByOthers: 'このコンテンツは他のユーザーによって報告されています',
+          cannotCancelOthersReport: 'このコンテンツは他のユーザーによって報告されているため、他の人の報告をキャンセルすることはできません',
+          thanksForFeedback: '、フィードバックをありがとうございます！',
+          failed: '失敗',
+          pleaseRetry: '後でもう一度お試しください',
+          postFailed: '投稿に失敗しました、もう一度お試しください',
+          reportTitle: '不適切なコンテンツを報告',
+          cancelReportTitle: '報告をキャンセル',
+          postContent: '投稿内容',
+          commentContent: 'コメント内容',
+          reportNotice: '報告に関する注意事項',
+          reportNotice1: '報告されたコンテンツは管理者によって審査されます',
+          reportNotice2: '悪意のある報告は処理されます',
+          reportNotice3: '報告が成功するとコンテンツは非表示になります',
+          reportReason: '報告理由',
+          reportReasonOptional: '（任意）',
+          selectReason: '報告理由を選択してください',
+          spam: 'スパム',
+          harassment: 'ハラスメント',
+          inappropriate: '不適切なコンテンツ',
+          misinformation: '虚偽情報',
+          other: 'その他',
+          cancel: 'キャンセル',
+          confirm: '報告を確認',
+          cancelReport: '報告をキャンセル',
+          cancelReportDesc: '報告をキャンセルすると、コンテンツは通常の表示に戻ります'
         }
+      },
+      time: {
+        unknown: '不明な時間',
+        minutesAgo: '{minutes}分前',
+        hoursAgo: '{hours}時間前',
+        daysAgo: '{days}日前'
       }
     }
   }
